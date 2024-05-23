@@ -33,17 +33,18 @@ function checkWorkingHours(req, res, next) {
   // Check if it's Monday to Friday
   if (day >= 1 && day <= 5) {
     // Check if it's between 9 AM and 5 PM
-    if (hour >= 9 && hour < 20) {
+    if (hour >= 9 && hour < 17) {
       return next(); // Continue to the next middleware or route handler
     }
   }
+  // Reading the workinghours.html file from the "public" directory synchronously
+  const workingHours = fs.readFileSync("./public/workinghours.html");
 
-  // If not within working hours, send a 403 Forbidden response
-  res
-    .status(404)
-    .send(
-      "<h1>The web application is only available during working hours <br> (Monday to Friday, from 9 AM to 5 PM)</h1>."
-    );
+  // Setting the response status to 200 (OK)
+  res.status(200);
+
+  // Sending the content of the homePage.html file as the response
+  res.send(`${workingHours}`);
 }
 
 // Apply the middleware to all routes
